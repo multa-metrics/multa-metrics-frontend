@@ -1,0 +1,28 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-multa-metrics-web-prod-142650-authRole",
+            "UnauthRoleArn": "arn:aws:iam::112646120612:role/amplify-multa-metrics-web-prod-142650-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::112646120612:role/amplify-multa-metrics-web-prod-142650-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-multa-metrics-web-prod-142650-deployment",
+            "UnauthRoleName": "amplify-multa-metrics-web-prod-142650-unauthRole",
+            "StackName": "amplify-multa-metrics-web-prod-142650",
+            "StackId": "arn:aws:cloudformation:us-east-1:112646120612:stack/amplify-multa-metrics-web-prod-142650/2ce4d220-81a2-11ea-aeec-0a7396047ff3",
+            "AmplifyAppId": "d14258l1f04l0x"
+        }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-multa-metrics-web-dev-143416-authRole",
+            "UnauthRoleArn": "arn:aws:iam::112646120612:role/amplify-multa-metrics-web-dev-143416-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::112646120612:role/amplify-multa-metrics-web-dev-143416-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-multa-metrics-web-dev-143416-deployment",
+            "UnauthRoleName": "amplify-multa-metrics-web-dev-143416-unauthRole",
+            "StackName": "amplify-multa-metrics-web-dev-143416",
+            "StackId": "arn:aws:cloudformation:us-east-1:112646120612:stack/amplify-multa-metrics-web-dev-143416/3613a190-81a3-11ea-8492-12b94cd95a93",
+            "AmplifyAppId": "d14258l1f04l0x"
+        }
+    }
+}
