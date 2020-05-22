@@ -16,6 +16,10 @@
     <title>Multa-Metrics</title>
   </head>
   <body>
+    <script>
+      document.cookie = 'same-site-cookie=foo; SameSite=Lax'; 
+      document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div> 
   </body>
