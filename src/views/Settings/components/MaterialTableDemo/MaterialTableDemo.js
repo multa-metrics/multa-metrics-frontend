@@ -56,12 +56,13 @@ const MaterialTableDemo = () => {
 
   const getUsers = () =>
   {
-    const endPoint = process.env.REACT_APP_API_BASE ;
+    const endPoint = process.env.REACT_APP_API_BASE;
+    const token = process.env.REACT_APP_AUTHORIZATION_TOKEN;
     axios({
       url: `${endPoint}users/`,
       method:'get',
       headers: {
-        'Authorization': 'Token Test',
+        'Authorization': token,
         'Content-Type': 'application/json'
       }
     }).then(response => {
