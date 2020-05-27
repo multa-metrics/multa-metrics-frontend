@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme => ({
     },
     errorMessage: {
         marginTop: '10px'
-    }
+    },
 }));
 
 const SignIn = props => {
@@ -268,19 +268,32 @@ const SignIn = props => {
                                 >
                                     Sign in now
                                 </Button>
-                                <Typography
-                                    color="textSecondary"
-                                    variant="body1"
-                                >
-                                    Don't have an account?{' '}
-                                    <Link
-                                        component={RouterLink}
-                                        to="/sign-up"
-                                        variant="h6"
-                                    >
-                                        Sign up
-                                    </Link>
-                                </Typography>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Typography
+                                            color="textSecondary"
+                                            variant="body1"
+                                        >
+                                            Don't have an account?{' '}
+                                            <Link
+                                                component={RouterLink}
+                                                to="/sign-up"
+                                                variant="h6"
+                                            >
+                                                Sign up
+                                            </Link>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link
+                                            component={RouterLink}
+                                            to="/reset-password"
+                                            variant="h6"
+                                        >
+                                            Forgot password?
+                                        </Link>
+                                    </Grid>
+                                </Grid>
                             </form>
                         </div>
                     </div>
