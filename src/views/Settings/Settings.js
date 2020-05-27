@@ -2,10 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
 
 import axios from "axios";
 import {Others} from './components';
-import {Plan, MaterialTableDemo } from './components';
+import {Plan, MaterialTableDemo, Pricing } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +16,7 @@ const useStyles = makeStyles(theme => ({
   root2: {
     maxWidth: 500,
     padding: theme.spacing(1),
+    
   },
 }));
 
@@ -26,6 +29,20 @@ const RightBox = {
   title:'Plan2',
   text:['Condicion #4','Condicion #5','Condicion #6'],
   UpgradePlan:false
+}
+
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
 const Settings = () => {
@@ -65,26 +82,21 @@ const Settings = () => {
   //}
   return (
     <div  className={classes.root}>
-     <Typography gutterBottom  variant='h1' className={classes.root2}>
-      Plans
-      </Typography>
       <Grid 
         container
         spacing={4}
+        align="center"       
       >
+        <Typography gutterBottom   variant='h1' className={classes.root2}>
+          Plans
+          
+        </Typography>
         <Grid
           item
-          md={6}
+          md={12}
           xs={12}
         >
-          <Plan BoxPlans={LeftBox} />
-        </Grid>
-        <Grid
-          item
-          md={6}
-          xs={12}
-        >
-          <Plan BoxPlans={RightBox}/> 
+          <Pricing/>
         </Grid>
         <Grid
           item
@@ -99,7 +111,14 @@ const Settings = () => {
           xs={12}
        >  
           <Others/> 
+        </Grid >
+        <Grid >
+          <Box align = "center" mt={5}>
+            <Copyright />
+          </Box>
+
         </Grid>
+        
       </Grid>
     </div>
   );
