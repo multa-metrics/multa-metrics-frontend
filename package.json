@@ -29,7 +29,9 @@
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
+    "@material-ui/lab": "4.0.0-alpha.39",
     "@material-ui/styles": "^4.2.1",
+    "aws-amplify": "^3.0.10",
     "axios": "^0.19.2",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",

@@ -24,12 +24,12 @@ const Topbar = props => {
       position="fixed"
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
-        </RouterLink>
+        {/*<RouterLink to="/">*/}
+          {/*<img*/}
+            {/*alt="Logo"*/}
+            {/*src="/images/logos/logo--white.svg"*/}
+          {/*/>*/}
+        {/*</RouterLink>*/}
       </Toolbar>
     </AppBar>
   );
