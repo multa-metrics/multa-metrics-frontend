@@ -11,8 +11,8 @@ import {
     SignIn as SignInView,
     NotFound as NotFoundView,
     Devices as DevicesView,
-    Rules as RulesView
-
+    Rules as RulesView,
+    ResetPassword as ResetPasswordView
 } from './views';
 
 const Routes = ({isAuthenticated, isLoading, history }) => {
@@ -62,6 +62,12 @@ const Routes = ({isAuthenticated, isLoading, history }) => {
                     exact
                     layout={MinimalLayout}
                     path="/sign-in"
+                />
+                <Route
+                    component={ResetPasswordView}
+                    exact
+                    layout={MinimalLayout}
+                    path="/reset-password"
                 />
                 <Route
                     component={NotFoundView}

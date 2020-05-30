@@ -254,7 +254,7 @@ const SignUp = props => {
         const {email, organization} = formState.values;
 
         try {
-            await Auth.confirmSignUp(email, code, {clientMetadata: {['organization_name']: organization}});
+            await Auth.confirmSignUp(email, code, {clientMetadata: {'organization_name': organization}});
             history.push('/sign-in');
             setMessage(null);
             setErrorMessage(null);
