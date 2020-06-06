@@ -39,16 +39,16 @@ const MaterialTableDemo = () => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
-  const [state, setState] = React.useState({
-    columns: 
-    [
-      { title: 'First Name', field: 'name' },
-      { title: 'Last Name', field: 'familyName' },
-      { title: 'Email', field: 'email', type:'string' },
-      { title: 'Phone Number', field: 'phoneNumber', type: 'string' }
-    ],
-    data : []
-  });
+
+  const columns =
+  [
+    { title: 'First Name', field: 'name' },
+    { title: 'Last Name', field: 'familyName' },
+    { title: 'Email', field: 'email', type:'string' },
+    { title: 'Phone Number', field: 'phoneNumber', type: 'string' }
+  ];
+
+  const [state, setState] = React.useState([]);
 
   React.useEffect( ()=> {
     getUsers()
@@ -57,7 +57,7 @@ const MaterialTableDemo = () => {
   const getUsers = () =>
   {
     const endPoint = process.env.REACT_APP_API_BASE;
-    const token = process.env.REACT_APP_AUTHORIZATION_TOKEN;
+    const token = `Token ${localStorage.getItem('token')}`;
     axios({
       url: `${endPoint}users/`,
       method:'get',
@@ -66,25 +66,12 @@ const MaterialTableDemo = () => {
         'Content-Type': 'application/json'
       }
     }).then(response => {
-      return response.data
-    }).then(data => {
-      AddUsersTableApi(data.results)
+      setState(response.data.results)
     }).catch(err => {     
       console.log(err)
     });
   }
-  
-  const AddUsersTableApi =(users) => 
-  {
-    users.map((item)=>{
-      setState((prevState) => { 
-        const data = [...prevState.data];
-        data.push(item);
-        return { ...prevState, data };  
-      });
-    }); 
-  }
-  
+
   return (
     <MaterialTable
       title="Editable Example"
@@ -92,8 +79,8 @@ const MaterialTableDemo = () => {
       options={{
         actionsColumnIndex: -1
       }}
-      columns={state.columns}
-      data={state.data}
+      columns={columns}
+      data={state}
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {
