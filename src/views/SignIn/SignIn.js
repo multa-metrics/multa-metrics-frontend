@@ -178,7 +178,8 @@ const SignIn = props => {
         const {email, password} = formState.values;
 
         try {
-            await Auth.signIn(email, password);
+             const result = await Auth.signIn(email, password);
+            localStorage.setItem('token',result.signInUserSession.idToken.jwtToken);
             history.push('/dashboard')
         } catch (e) {
             setErrorMessage(e.message)
