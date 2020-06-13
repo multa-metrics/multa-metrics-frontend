@@ -16,6 +16,7 @@ import {Auth} from 'aws-amplify';
 import Alert from "@material-ui/lab/Alert/Alert";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {useUser} from "../../context";
 
 const schema = {
     email: {
@@ -143,6 +144,7 @@ const SignIn = props => {
     });
     const [errorMessage, setErrorMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    const {setUser} = useUser();
 
     useEffect(() => {
         const errors = validate(formState.values, schema);
@@ -178,8 +180,8 @@ const SignIn = props => {
         const {email, password} = formState.values;
 
         try {
-             const result = await Auth.signIn(email, password);
-            localStorage.setItem('token',result.signInUserSession.idToken.jwtToken);
+            const user = await Auth.signIn(email, password);
+            setUser(user);
             history.push('/dashboard')
         } catch (e) {
             setErrorMessage(e.message)
