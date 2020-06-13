@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 import axios from "axios";
+import {useUser} from "../../../../context";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,16 +42,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Pricing = () => {
 
-  const [plans] = React.useState('Professional');
+  const [currentPlan] = React.useState('Professional');
   const [state, setState] = React.useState([]);
+    const { user, isLoading } = useUser();
+    const [ isFetching, setIsFetching ] = useState(false);
   
   React.useEffect( ()=> {
-    getPlans()
-  },[])
+      if(!isLoading) {
+          getPlans()
+      }
+  },[isLoading])
   
   const getPlans = () =>{
+    setIsFetching(true);
   const endPoint = process.env.REACT_APP_API_BASE;
-  const token = `Token ${localStorage.getItem('token')}`;
+  const token = `Token ${user.signInUserSession.idToken.jwtToken}`;
   axios({
     url: `${endPoint}plans/`,
     method:'get',
@@ -57,9 +64,11 @@ const Pricing = () => {
       'Authorization': token,
       'Content-Type': 'application/json'
     }
-  }).then(response => { 
+  }).then(response => {
+      setIsFetching(false);
     setState(response.data.results)
-  }).catch(err => {     
+  }).catch(err => {
+      setIsFetching(false);
     console.log(err)
   });
   }
@@ -67,7 +76,7 @@ const Pricing = () => {
   const classes = useStyles();
 
   return (
-    <React.Fragment>        
+      (!isFetching ? <React.Fragment>
       <CssBaseline />      
       <Grid container spacing={2} alignItems="flex-end" justify="space-between">      
         {state && state.map((tier,item) => (      
@@ -77,7 +86,7 @@ const Pricing = () => {
                 title={tier.name}
                 titleTypographyProps={{ align: 'center' }}
                 subheaderTypographyProps={{ align: 'center' }}
-                action={tier.name === plans ? <StarIcon /> : null}
+                action={tier.name === currentPlan ? <StarIcon /> : null}
                 className={classes.cardHeader}
               />
               <CardContent>
@@ -116,17 +125,17 @@ const Pricing = () => {
               <CardActions>
                 <Button 
                   fullWidth 
-                  disabled={tier.name === plans ? 1 : 0}
+                  disabled={tier.name === currentPlan }
                   variant = 'contained' 
                   color="primary">
-                  { tier.name === plans ? 'Al Present' : 'Change'}
+                  {'Change'}
                 </Button>
               </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
-    </React.Fragment>
+    </React.Fragment>: <CircularProgress />)
   );
 }
 export default Pricing ;

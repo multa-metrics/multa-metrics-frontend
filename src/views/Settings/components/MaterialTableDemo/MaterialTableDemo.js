@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
 import MaterialTable from "material-table";
 
@@ -18,6 +18,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {useUser} from "../../../../context";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const MaterialTableDemo = () => {
   const tableIcons = {
@@ -49,15 +51,22 @@ const MaterialTableDemo = () => {
   ];
 
   const [state, setState] = React.useState([]);
+  const { user, isLoading } = useUser();
+  const [ isFetching, setIsFetching ] = useState(false);
 
   React.useEffect( ()=> {
-    getUsers()
-  },[])
+    if(!isLoading){
+        getUsers()
+    }
+
+  },[isLoading]);
 
   const getUsers = () =>
   {
+    setIsFetching(true);
     const endPoint = process.env.REACT_APP_API_BASE;
-    const token = `Token ${localStorage.getItem('token')}`;
+    const token = `Token ${user.signInUserSession.idToken.jwtToken}`;
+
     axios({
       url: `${endPoint}users/`,
       method:'get',
@@ -66,15 +75,17 @@ const MaterialTableDemo = () => {
         'Content-Type': 'application/json'
       }
     }).then(response => {
+      setIsFetching(false);
       setState(response.data.results)
-    }).catch(err => {     
+    }).catch(err => {
+      setIsFetching(false);
       console.log(err)
     });
   }
 
   return (
-    <MaterialTable
-      title="Editable Example"
+      (!isFetching ? <MaterialTable
+      title=""
       icons={tableIcons}
       options={{
         actionsColumnIndex: -1
@@ -118,7 +129,7 @@ const MaterialTableDemo = () => {
             }, 600);
           }),
       }}
-    />
+    /> : <CircularProgress />)
   );
 };
 

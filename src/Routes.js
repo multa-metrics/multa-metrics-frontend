@@ -15,7 +15,7 @@ import {
     ResetPassword as ResetPasswordView
 } from './views';
 
-const Routes = ({isAuthenticated, isLoading, history }) => {
+const Routes = ({history }) => {
     return (
             <Switch>
                 <Redirect

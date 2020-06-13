@@ -14,6 +14,7 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
 import Amplify from 'aws-amplify';
+import {UserProvider} from "./context";
 
 Amplify.configure(
     {
@@ -37,9 +38,11 @@ export default class App extends Component {  //esto se puede escribir mediante 
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Router history={browserHistory}>
-                    <Routes/>
-                </Router>
+                <UserProvider>
+                    <Router history={browserHistory}>
+                        <Routes/>
+                    </Router>
+                </UserProvider>
             </ThemeProvider>
         );
     }

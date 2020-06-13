@@ -47,7 +47,7 @@ const Settings = () => {
           align="center"       
         >
           <Typography gutterBottom   variant='h1' className={classes.root2}>
-            Plans
+            {/*Plans*/}
             
           </Typography>
           <Grid

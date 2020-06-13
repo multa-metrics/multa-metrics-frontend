@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import {Auth} from 'aws-amplify';
+import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,6 +25,7 @@ const Topbar = props => {
     const {className, onSidebarOpen, history, ...rest} = props;
     const classes = useStyles();
     const [notifications] = useState([]);
+    const { user } = useUser();
 
     const handleSignOut = async event => {
         event.preventDefault();
@@ -36,9 +38,7 @@ const Topbar = props => {
     const handleAccount = event => {
         event.preventDefault();
 
-        Auth.currentAuthenticatedUser()
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        console.log(user)
     };
 
     return (
