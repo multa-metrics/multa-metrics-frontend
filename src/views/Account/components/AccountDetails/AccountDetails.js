@@ -12,6 +12,7 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
+import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -19,17 +20,22 @@ const useStyles = makeStyles(() => ({
 
 const AccountDetails = props => {
   const { className, ...rest } = props;
+  const { user } = useUser();
 
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    firstName: 'Shen',
-    lastName: 'Zhi',
-    email: 'shen.zhi@devias.io',
-    phone: '',
+    firstName: user.attributes.given_name,
+    lastName: user.attributes.family_name,
+    email: user.attributes.email,
+    phone: user.attributes.phone_number,
     state: 'Alabama',
     country: 'USA'
   });
+
+
+  console.log(user);
+
 
   const handleChange = event => {
     setValues({
@@ -132,7 +138,7 @@ const AccountDetails = props => {
                 margin="dense"
                 name="phone"
                 onChange={handleChange}
-                type="number"
+                type="text"
                 value={values.phone}
                 variant="outlined"
               />

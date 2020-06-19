@@ -13,6 +13,7 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core';
+import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -36,10 +37,11 @@ const useStyles = makeStyles(theme => ({
 
 const AccountProfile = props => {
   const { className, ...rest } = props;
+  const { user } = useUser()
 
   const classes = useStyles();
 
-  const user = {
+  const userT = {
     name: 'Shen Zhi',
     city: 'Los Angeles',
     country: 'USA',
@@ -59,26 +61,26 @@ const AccountProfile = props => {
               gutterBottom
               variant="h2"
             >
-              John Doe
+                {user.attributes.given_name}, {user.attributes.family_name}
             </Typography>
             <Typography
               className={classes.locationText}
               color="textSecondary"
               variant="body1"
             >
-              {user.city}, {user.country}
+              {userT.city}, {userT.country}
             </Typography>
             <Typography
               className={classes.dateText}
               color="textSecondary"
               variant="body1"
             >
-              {moment().format('hh:mm A')} ({user.timezone})
+              {moment().format('hh:mm A')} ({userT.timezone})
             </Typography>
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={userT.avatar}
           />
         </div>
         <div className={classes.progress}>

@@ -12,7 +12,8 @@ import {
     NotFound as NotFoundView,
     Devices as DevicesView,
     Rules as RulesView,
-    ResetPassword as ResetPasswordView
+    ResetPassword as ResetPasswordView,
+    Account as AccountView
 } from './views';
 
 const Routes = ({history }) => {
@@ -50,6 +51,12 @@ const Routes = ({history }) => {
                     history={history}
                     layout={MainLayout}
                     path="/settings"
+                />
+                <RouteWithLayout
+                    component={AccountView}
+                    exact
+                    layout={MainLayout}
+                    path="/account"
                 />
                 <Route
                     component={SignUpView}

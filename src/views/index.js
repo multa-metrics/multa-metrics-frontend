@@ -7,3 +7,4 @@ export { default as Typography } from './Typography';
 export {default as Devices} from './Devices'
 export {default as Rules} from './Rules';
 export {default as ResetPassword} from './ResetPassword';
+export {default as Account} from './Account';

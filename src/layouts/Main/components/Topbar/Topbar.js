@@ -38,7 +38,7 @@ const Topbar = props => {
     const handleAccount = event => {
         event.preventDefault();
 
-        console.log(user)
+        history.push('account');
     };
 
     return (
