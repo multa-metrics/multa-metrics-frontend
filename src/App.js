@@ -15,9 +15,16 @@ import validators from './common/validators';
 import Routes from './Routes';
 import Amplify from 'aws-amplify';
 import {UserProvider} from "./context";
-import awsmobile from "./aws-exports";
 
-Amplify.configure(awsmobile);
+Amplify.configure({
+    Auth: {
+        identityPoolId: process.env.REACT_APP_AWS_IDENTITY_POOL_ID,
+        region: process.env.REACT_APP_AWS_COGNITO_REGION,
+        userPoolId: process.env.REACT_APP_AWS_USER_POOLS_ID,
+        userPoolWebClientId: process.env.REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID,
+        mandatorySignIn: true,
+    }
+});
 
 const browserHistory = createBrowserHistory();
 
