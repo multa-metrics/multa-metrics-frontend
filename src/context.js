@@ -10,17 +10,39 @@ export const UserContext = React.createContext(null);
 // mapped to a different interface, the one that we are going to expose to the rest of the app.
 export const UserProvider = ({children}) => {
     const [user, setUser] = React.useState(null);
+    const [credentials, setCredentials] = React.useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Auth.currentAuthenticatedUser().then((user) => {
-            setUser(user)
-            setIsLoading(false);
-        }).catch(() => {
-            setIsLoading(false);
-        })
+        fetchUser();
+        fetchCredentials();
     }, [])
 
+    const fetchUser = async () => {
+        try {
+            const res = await Auth.currentAuthenticatedUser();
+            setUser(res);
+            setIsLoading(false);
+        }catch (e) {
+            setIsLoading(false);
+        }
+    };
+
+    const fetchCredentials = async () => {
+        try {
+            const res = await Auth.currentUserCredentials();
+            setCredentials(res);
+
+            localStorage.setItem("accessKeyId", credentials.accessKeyId);
+            localStorage.setItem("secretAccessKey", credentials.secretAccessKey);
+            localStorage.setItem("identityId", credentials.identityId);
+            localStorage.setItem("sessionToken", credentials.sessionToken);
+
+            setIsLoading(false);
+        }catch (e) {
+            setIsLoading(false);
+        }
+    };
     // React.useEffect(async () => {
     //
     //     // Configure the keys needed for the Auth module. Essentially this is
@@ -76,7 +98,7 @@ export const UserProvider = ({children}) => {
     // const values = React.useMemo(() => ({ user, login, logout, tokenId }), [user, tokenId]);
 
     // Finally, return the interface that we want to expose to our other components
-    return <UserContext.Provider value={{user, setUser, isLoading}}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{user, setUser, isLoading, credentials, setCredentials}}>{children}</UserContext.Provider>;
 };
 
 // We also create a simple custom hook to read these values from. We want our React components
