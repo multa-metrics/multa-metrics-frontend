@@ -25,13 +25,19 @@ const Topbar = props => {
     const {className, onSidebarOpen, history, ...rest} = props;
     const classes = useStyles();
     const [notifications] = useState([]);
-    const { user } = useUser();
 
     const handleSignOut = async event => {
         event.preventDefault();
 
-        Auth.signOut()
-            .then(() => history.push('sign-in'))
+        Auth.signOut({global: true})
+            .then(() => {
+                localStorage.removeItem("accessKeyId");
+                localStorage.removeItem("secretAccessKey");
+                localStorage.removeItem("identityId");
+                localStorage.removeItem("sessionToken");
+
+                history.push('sign-in')
+            })
             .catch(error => console.log(error));
     };
 
