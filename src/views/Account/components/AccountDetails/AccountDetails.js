@@ -33,10 +33,6 @@ const AccountDetails = props => {
     country: 'USA'
   });
 
-
-  console.log(user);
-
-
   const handleChange = event => {
     setValues({
       ...values,

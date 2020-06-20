@@ -7,7 +7,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import {Auth} from 'aws-amplify';
-import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(theme => ({
     root: {
