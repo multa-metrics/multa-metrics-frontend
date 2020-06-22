@@ -56,7 +56,7 @@ const Pricing = () => {
     const getPlans = () => {
         setIsFetching(true);
         const endPoint = process.env.REACT_APP_API_BASE;
-        const token = `Token ${user.signInUserSession.idToken.jwtToken}`;
+        const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
         axios({
             url: `${endPoint}plans/`,
             method: 'get',

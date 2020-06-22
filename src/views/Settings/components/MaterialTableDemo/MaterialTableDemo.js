@@ -44,10 +44,10 @@ const MaterialTableDemo = () => {
 
   const columns =
   [
-    { title: 'First Name', field: 'name' },
-    { title: 'Last Name', field: 'familyName' },
+    { title: 'First Name', field: 'given_name' },
+    { title: 'Last Name', field: 'family_name' },
     { title: 'Email', field: 'email', type:'string' },
-    { title: 'Phone Number', field: 'phoneNumber', type: 'string' }
+    { title: 'Phone Number', field: 'phone_number', type: 'string' }
   ];
 
   const [state, setState] = React.useState([]);
@@ -65,7 +65,7 @@ const MaterialTableDemo = () => {
   {
     setIsFetching(true);
     const endPoint = process.env.REACT_APP_API_BASE;
-    const token = `Token ${user.signInUserSession.idToken.jwtToken}`;
+    const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
 
     axios({
       url: `${endPoint}users/`,
@@ -76,7 +76,7 @@ const MaterialTableDemo = () => {
       }
     }).then(response => {
       setIsFetching(false);
-      setState(response.data.results)
+      setState(response.data.results.users)
     }).catch(err => {
       setIsFetching(false);
       console.log(err)
