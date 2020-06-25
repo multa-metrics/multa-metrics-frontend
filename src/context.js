@@ -14,35 +14,37 @@ export const UserProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await Auth.currentAuthenticatedUser();
+                setUser(res);
+                setIsLoading(false);
+            }catch (e) {
+                setIsLoading(false);
+            }
+        };
+
+        const fetchCredentials = async () => {
+            try {
+                const res = await Auth.currentUserCredentials();
+                setCredentials(res);
+
+                localStorage.setItem("accessKeyId", credentials.accessKeyId);
+                localStorage.setItem("secretAccessKey", credentials.secretAccessKey);
+                localStorage.setItem("identityId", credentials.identityId);
+                localStorage.setItem("sessionToken", credentials.sessionToken);
+
+                setIsLoading(false);
+            }catch (e) {
+                setIsLoading(false);
+            }
+        };
+
         fetchUser();
         fetchCredentials();
     }, [])
 
-    const fetchUser = async () => {
-        try {
-            const res = await Auth.currentAuthenticatedUser();
-            setUser(res);
-            setIsLoading(false);
-        }catch (e) {
-            setIsLoading(false);
-        }
-    };
 
-    const fetchCredentials = async () => {
-        try {
-            const res = await Auth.currentUserCredentials();
-            setCredentials(res);
-
-            localStorage.setItem("accessKeyId", credentials.accessKeyId);
-            localStorage.setItem("secretAccessKey", credentials.secretAccessKey);
-            localStorage.setItem("identityId", credentials.identityId);
-            localStorage.setItem("sessionToken", credentials.sessionToken);
-
-            setIsLoading(false);
-        }catch (e) {
-            setIsLoading(false);
-        }
-    };
     // React.useEffect(async () => {
     //
     //     // Configure the keys needed for the Auth module. Essentially this is
