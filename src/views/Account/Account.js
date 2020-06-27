@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Account = () => {
+const Account = (props) => {
   const classes = useStyles();
   const [isFetching, setIsFetching] = useState(true);
   const [user, setUser] = useState(null);
@@ -40,7 +40,7 @@ const Account = () => {
           <AccountProfile value={user}/>
         </Grid>
         <Grid item lg={8} md={6} xl={8} xs={12}>
-          <AccountDetails value={user}/>
+          <AccountDetails history={props.history} value={user}/>
         </Grid>
       </Grid>
     </div>
