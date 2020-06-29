@@ -1,36 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Redirect, Route} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {Auth} from 'aws-amplify'
+import { useUser } from "../../context";
 
 const RouteWithLayout = props => {
     const {layout: Layout, component: Component, ...rest} = props;
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { isAuthenticating, isAuthenticated } = useUser();
 
-    useEffect(() => {
-        Auth.currentAuthenticatedUser().then(() => {
-            setIsAuthenticated(true);
-            setIsLoading(false);
-        }).catch(() => {
-            setIsLoading(false);
-        })
-    }, [])
-
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
-    if (!isAuthenticated) {
-        return <Redirect to="/sign-in"/>
-    }
-    return <Route
+    return !isAuthenticating && (isAuthenticated ? <Route
         {...rest}
         render={matchProps => (
             <Layout>
                 <Component {...matchProps} />
             </Layout>
         )}
-    />
+    /> : <Redirect to="/sign-in"/>)
 };
 
 RouteWithLayout.propTypes = {

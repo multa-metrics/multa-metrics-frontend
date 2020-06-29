@@ -53,6 +53,10 @@ const schema = {
             message: "must contain at least one numeric digit, one uppercase and one lowercase letters"
         }
     },
+    confirmPassword: {
+        presence: {allowEmpty: false, message: 'is required'},
+        equality: "password"
+    },
     policy: {
         presence: {allowEmpty: false, message: 'is required'},
         checked: true
@@ -191,6 +195,7 @@ const SignUp = props => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [message, setMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         const errors = validate(formState.values, schema);
@@ -392,6 +397,33 @@ const SignUp = props => {
                                                     edge="end"
                                                 >
                                                     {!showPassword ? <Visibility/> : <VisibilityOff/>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+                                <TextField
+                                    className={classes.textField}
+                                    error={hasError('confirmPassword')}
+                                    fullWidth
+                                    helperText={
+                                        hasError('confirmPassword') ? formState.errors.confirmPassword[0] : null
+                                    }
+                                    label="Confirm Password"
+                                    name="confirmPassword"
+                                    onChange={handleChange}
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    value={formState.values.confirmPassword || ''}
+                                    variant="outlined"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                    edge="end"
+                                                >
+                                                    {!showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
                                                 </IconButton>
                                             </InputAdornment>
                                         )

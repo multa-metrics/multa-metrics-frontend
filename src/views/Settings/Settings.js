@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 
 import _ from "lodash";
 import axios from "axios";
-import {useUser} from "../../context";
 import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,11 +25,9 @@ const Settings = () => {
     const [plans, setPlans] = useState(null);
     const [users, setUsers] = useState(null);
 
-    const {user} = useUser();
-
     useEffect(() => {
         const endPoint = process.env.REACT_APP_API_BASE;
-        const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
+        const token = `Token ${localStorage.accessToken}`;
 
         const getPlans = async () => {
             try {
@@ -64,11 +61,9 @@ const Settings = () => {
             }
         };
 
-        if (user) {
             getUsers();
             getPlans();
-        }
-    }, [user]);
+    }, []);
 
     return users && plans ? (
         <Container>
