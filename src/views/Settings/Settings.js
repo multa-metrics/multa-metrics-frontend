@@ -2,14 +2,10 @@ import React, {useState, useEffect} from "react";
 import {makeStyles} from "@material-ui/styles";
 import {Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
-import {Others} from "./components";
 import {MaterialTableDemo, Pricing} from "./components";
 import Container from "@material-ui/core/Container";
 
 import _ from "lodash";
-
 import axios from "axios";
 import {useUser} from "../../context";
 import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
@@ -25,19 +21,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {"Copyright © "}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
-
 const Settings = () => {
     const classes = useStyles();
     const [plans, setPlans] = useState(null);
@@ -46,59 +29,55 @@ const Settings = () => {
     const {user} = useUser();
 
     useEffect(() => {
-        const getPlans = () => {
-            const endPoint = process.env.REACT_APP_API_BASE;
-            const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
+        const endPoint = process.env.REACT_APP_API_BASE;
+        const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
 
-            axios({
-                url: `${endPoint}plans/`,
-                method: "get",
-                headers: {
-                    Authorization: token,
-                    "Content-Type": "application/json",
-                },
-            })
-                .then((response) => {
-                    setPlans(_.sortBy(response.data.results, ["index"]));
-                })
-                .catch((err) => {
-                    console.log(err);
+        const getPlans = async () => {
+            try {
+                const res = await axios({
+                    url: `${endPoint}plans/`,
+                    method: "get",
+                    headers: {
+                        Authorization: token,
+                        "Content-Type": "application/json",
+                    },
                 });
+                setPlans(_.sortBy(res.data.results, ["index"]));
+            } catch (error) {
+                console.log(error);
+            }
         };
 
-        const getUsers = () => {
-            const endPoint = process.env.REACT_APP_API_BASE;
-            const token = `Token ${user.signInUserSession.accessToken.jwtToken}`;
-
-            axios({
-                url: `${endPoint}users/`,
-                method: "get",
-                headers: {
-                    Authorization: token,
-                    "Content-Type": "application/json",
-                },
-            })
-                .then((response) => {
-                    setUsers(response.data.results);
-                })
-                .catch((err) => {
-                    console.log(err);
+        const getUsers = async () => {
+            try {
+                const res = await axios({
+                    url: `${endPoint}users/`,
+                    method: "get",
+                    headers: {
+                        Authorization: token,
+                        "Content-Type": "application/json",
+                    },
                 });
+                setUsers(res.data.results);
+            } catch (error) {
+                console.log(error);
+            }
         };
 
         if (user) {
-            (async () => {
-                await getUsers();
-                await getPlans();
-            })();
+            getUsers();
+            getPlans();
         }
     }, [user]);
 
-    return (users && plans) ? (
+    return users && plans ? (
         <Container>
             <div className={classes.root}>
                 <Grid container spacing={4} align="center">
-                    <Typography gutterBottom variant="h1" className={classes.root2}>
+                    <Typography
+                        gutterBottom
+                        variant="h1"
+                        className={classes.root2}>
                     </Typography>
                     <Grid item md={12} xs={12}>
                         <Pricing value={plans}/>
@@ -111,7 +90,6 @@ const Settings = () => {
         </Container>
     ) : (
         <LinearProgress color="primary"/>
-    )
-
+    );
 };
 export default Settings;
