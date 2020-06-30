@@ -154,7 +154,6 @@ const useStyles = makeStyles(theme => ({
 const ResetPassword = props => {
     const {history} = props;
     const classes = useStyles();
-    // const [email, setEmail] = useState('');
     const [sentCode, setSentCode] = useState(false);
     const [formState, setFormState] = useState({
         isValid: false,

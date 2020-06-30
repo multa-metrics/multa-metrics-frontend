@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { useUser } from "../../context";
 import { AccountProfile, AccountDetails } from "./components";
+import {Auth} from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,22 +14,33 @@ const useStyles = makeStyles((theme) => ({
 const Account = () => {
   const classes = useStyles();
   const [isFetching, setIsFetching] = useState(true);
-  const { isLoading } = useUser();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!isLoading) {
-      setIsFetching(false);
-    }
-  }, [isLoading]);
+    const fetchUser = async () => {
+        try {
+            const res = await Auth.currentAuthenticatedUser();
+            setUser(res);
 
-  return !isFetching ? (
+        }catch (e) {
+
+        }
+
+        setIsFetching(false);
+    };
+
+    fetchUser();
+  }, []);
+
+
+  return (!isFetching) ? (
     <div className={classes.root}>
       <Grid container spacing={4}>
         <Grid item lg={4} md={6} xl={4} xs={12}>
-          <AccountProfile />
+          <AccountProfile value={user}/>
         </Grid>
         <Grid item lg={8} md={6} xl={8} xs={12}>
-          <AccountDetails />
+          <AccountDetails value={user}/>
         </Grid>
       </Grid>
     </div>

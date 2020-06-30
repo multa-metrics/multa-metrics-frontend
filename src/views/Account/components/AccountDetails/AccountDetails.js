@@ -12,15 +12,14 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
-import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
 const AccountDetails = props => {
-  const { className, ...rest } = props;
-  const { user } = useUser();
+  const { className, value, ...rest } = props;
+  const [ user ] = useState(value);
 
   const classes = useStyles();
 
@@ -54,6 +53,8 @@ const AccountDetails = props => {
       label: 'San Francisco'
     }
   ];
+
+
 
   return (
     <Card

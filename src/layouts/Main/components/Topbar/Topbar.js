@@ -30,6 +30,9 @@ const Topbar = (props) => {
 
         Auth.signOut({global: true})
             .then(() => {
+                localStorage.removeItem("idToken");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
                 localStorage.removeItem("accessKeyId");
                 localStorage.removeItem("secretAccessKey");
                 localStorage.removeItem("identityId");

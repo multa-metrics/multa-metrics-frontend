@@ -144,7 +144,7 @@ const SignIn = props => {
     });
     const [errorMessage, setErrorMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const {setUser, setCredentials} = useUser();
+    const { userHasAuthenticated } = useUser();
 
     useEffect(() => {
         const errors = validate(formState.values, schema);
@@ -181,10 +181,13 @@ const SignIn = props => {
 
         try {
             const user = await Auth.signIn(email, password);
-            setUser(user);
-
             const credentials = await Auth.currentUserCredentials();
-            setCredentials(credentials);
+
+            userHasAuthenticated(true);
+
+            localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken);
+            localStorage.setItem("accessToken", user.signInUserSession.accessToken.jwtToken);
+            localStorage.setItem("refreshToken", user.signInUserSession.refreshToken.token);
 
             localStorage.setItem("accessKeyId", credentials.accessKeyId);
             localStorage.setItem("secretAccessKey", credentials.secretAccessKey);

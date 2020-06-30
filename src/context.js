@@ -9,39 +9,33 @@ export const UserContext = React.createContext(null);
 // components bellow via the `UserContext.Provider` component. This is where the Amplify will be
 // mapped to a different interface, the one that we are going to expose to the rest of the app.
 export const UserProvider = ({children}) => {
-    const [user, setUser] = React.useState(null);
-    const [credentials, setCredentials] = React.useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const initState = async () => {
             try {
-                const res = await Auth.currentAuthenticatedUser();
-                setUser(res);
-                setIsLoading(false);
-            }catch (e) {
-                setIsLoading(false);
-            }
-        };
+                const currentSession = await Auth.currentSession();
+                const credentials = await Auth.currentUserCredentials();
 
-        const fetchCredentials = async () => {
-            try {
-                const res = await Auth.currentUserCredentials();
-                setCredentials(res);
+                userHasAuthenticated(true);
+
+                localStorage.setItem("idToken", currentSession.idToken.jwtToken);
+                localStorage.setItem("accessToken", currentSession.accessToken.jwtToken);
+                localStorage.setItem("refreshToken", currentSession.refreshToken.token);
 
                 localStorage.setItem("accessKeyId", credentials.accessKeyId);
                 localStorage.setItem("secretAccessKey", credentials.secretAccessKey);
                 localStorage.setItem("identityId", credentials.identityId);
                 localStorage.setItem("sessionToken", credentials.sessionToken);
 
-                setIsLoading(false);
             }catch (e) {
-                setIsLoading(false);
             }
+
+            setIsAuthenticating(false);
         };
 
-        fetchUser();
-        fetchCredentials();
+        initState()
     }, [])
 
 
@@ -100,7 +94,7 @@ export const UserProvider = ({children}) => {
     // const values = React.useMemo(() => ({ user, login, logout, tokenId }), [user, tokenId]);
 
     // Finally, return the interface that we want to expose to our other components
-    return <UserContext.Provider value={{user, setUser, isLoading, credentials, setCredentials}}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{isAuthenticating, isAuthenticated, userHasAuthenticated}}>{children}</UserContext.Provider>;
 };
 
 // We also create a simple custom hook to read these values from. We want our React components

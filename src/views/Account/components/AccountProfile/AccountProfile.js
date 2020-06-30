@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
@@ -13,7 +13,6 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core';
-import {useUser} from "../../../../context";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -36,8 +35,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AccountProfile = props => {
-  const { className, ...rest } = props;
-  const { user } = useUser()
+  const { className, value, ...rest } = props;
+  const [ user ] = useState(value)
 
   const classes = useStyles();
 
