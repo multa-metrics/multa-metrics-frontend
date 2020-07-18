@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {makeStyles} from "@material-ui/styles";
 import {Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import {MaterialTableDemo, Pricing} from "./components";
+import {Users, Pricing} from "./components";
 import Container from "@material-ui/core/Container";
 
 import _ from "lodash";
@@ -39,7 +39,7 @@ const Settings = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                setPlans(_.sortBy(res.data.results, ["index"]));
+                setPlans(_.sortBy(res.data.results.data, ["index"]));
             } catch (error) {
                 console.log(error);
             }
@@ -55,7 +55,7 @@ const Settings = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                setUsers(res.data.results);
+                setUsers(res.data.results.data);
             } catch (error) {
                 console.log(error);
             }
@@ -78,7 +78,7 @@ const Settings = () => {
                         <Pricing value={plans}/>
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <MaterialTableDemo value={users}/>
+                        <Users value={users}/>
                     </Grid>
                 </Grid>
             </div>
