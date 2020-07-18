@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
-  CardHeader,
   CardContent,
   CardActions,
   Divider,
@@ -12,7 +11,6 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
-import {useUser} from "../../../../context";
 
 const useStyles = makeStyles((theme) => ({
     root: {},

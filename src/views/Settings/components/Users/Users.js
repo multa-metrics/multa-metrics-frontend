@@ -18,7 +18,7 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
-const MaterialTableDemo = (props) => {
+const Users = (props) => {
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -107,4 +107,4 @@ const MaterialTableDemo = (props) => {
   );
 };
 
-export default MaterialTableDemo;
+export default Users;
