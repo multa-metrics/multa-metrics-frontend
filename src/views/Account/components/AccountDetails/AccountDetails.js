@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
+import PhoneInput from "react-phone-input-2";
+import "material-ui-phone-number";
+import "../../../../css/material.css";
+
 import {
   Card,
   CardContent,
@@ -9,21 +13,21 @@ import {
   Divider,
   Grid,
   Button,
-  TextField
-} from '@material-ui/core';
+  TextField,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
-    button: {
-        marginRight: theme.spacing(4),
-        marginLeft: theme.spacing(2),
-    },
+  root: {overflow: "inherit"},
+  button: {
+    marginRight: theme.spacing(4),
+    marginLeft: theme.spacing(2),
+  },
 }));
 
-const AccountDetails = props => {
+const AccountDetails = (props) => {
   const { className, value, ...rest } = props;
-    const [ user ] = useState(value);
-    const { history } = props;
+  const [user] = useState(value);
+  const { history } = props;
 
   const classes = useStyles();
 
@@ -31,13 +35,20 @@ const AccountDetails = props => {
     firstName: user.attributes.given_name,
     lastName: user.attributes.family_name,
     email: user.attributes.email,
-    phone: user.attributes.phone_number
+    phone: user.attributes.phone_number,
   });
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.target.phone]: event.target.value,
+    });
+  };
+
+  const handleChangePhoneNumber = (value) => {
+    setValues({
+      ...values,
+      [values.phone]: value,
     });
   };
 
@@ -48,7 +59,7 @@ const AccountDetails = props => {
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
-      <form autoComplete="off" noValidate>
+      <form>
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
@@ -76,6 +87,7 @@ const AccountDetails = props => {
                 variant="outlined"
               />
             </Grid>
+
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -89,15 +101,14 @@ const AccountDetails = props => {
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                margin="dense"
+              <PhoneInput
+                defaultCountry="us"
                 name="phone"
-                onChange={handleChange}
-                type="text"
+                required
                 value={values.phone}
+                onChange={handleChangePhoneNumber}
                 variant="outlined"
+                regiones={" europa "}
               />
             </Grid>
           </Grid>
