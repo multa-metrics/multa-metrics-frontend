@@ -14,7 +14,7 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
 import Amplify from 'aws-amplify';
-import {UserProvider} from "./context";
+import {AppStateProvider} from "./state/stateContext";
 
 Amplify.configure({
     Auth: {
@@ -42,11 +42,11 @@ export default class App extends Component {  //esto se puede escribir mediante 
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <UserProvider>
-                    <Router history={browserHistory}>
+                <Router history={browserHistory}>
+                    <AppStateProvider>
                         <Routes/>
-                    </Router>
-                </UserProvider>
+                    </AppStateProvider>
+                </Router>
             </ThemeProvider>
         );
     }
