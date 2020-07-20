@@ -24,10 +24,10 @@ export const AppStateProvider = ({children}) => {
                 localStorage.setItem("identityId", credentials.identityId);
                 localStorage.setItem("sessionToken", credentials.sessionToken);
 
+                setIsAuthenticating(false);
             }catch (e) {
+                setIsAuthenticating(false);
             }
-
-            setIsAuthenticating(false);
         };
 
         initState();

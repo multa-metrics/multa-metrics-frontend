@@ -11,6 +11,7 @@ import StarIcon from "@material-ui/icons/StarBorder";
 
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
+import Error from "../../../Error/Error";
 
 const useStyles = makeStyles((theme) => ({
     cardHeader: {
@@ -31,6 +32,10 @@ const Pricing = (props) => {
     const [currentPlan] = useState("Professional");
     const [plans] = useState(props.value);
     const classes = useStyles();
+
+    if (props.error) {
+       return <Error error={props.error} message={"Something went wrong with plans."}/>
+    }
 
     return (
         <React.Fragment>
