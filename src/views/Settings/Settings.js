@@ -24,12 +24,17 @@ const Settings = () => {
     const classes = useStyles();
     const [plans, setPlans] = useState(null);
     const [users, setUsers] = useState(null);
+    const [isFetchingPlans, setIsFetchingPlans] = useState(false);
+    const [isFetchingUsers, setIsFetchingUsers] = useState(false);
+    const [errorPlans, setErrorPlans] = useState(null);
+    const [errorUsers, setErrorUsers] = useState(null);
 
     useEffect(() => {
         const endPoint = process.env.REACT_APP_API_BASE;
         const token = `Token ${localStorage.accessToken}`;
 
         const getPlans = async () => {
+            setIsFetchingPlans(true);
             try {
                 const res = await axios({
                     url: `${endPoint}plans/`,
@@ -40,12 +45,15 @@ const Settings = () => {
                     },
                 });
                 setPlans(_.sortBy(res.data.results.data, ["index"]));
+                setIsFetchingPlans(false);
             } catch (error) {
-                console.log(error);
+                setIsFetchingPlans(false);
+                setErrorPlans(error.message);
             }
         };
 
         const getUsers = async () => {
+            setIsFetchingUsers(true);
             try {
                 const res = await axios({
                     url: `${endPoint}users/`,
@@ -56,17 +64,18 @@ const Settings = () => {
                     },
                 });
                 setUsers(res.data.results.data);
+                setIsFetchingUsers(false);
             } catch (error) {
-                console.log(error);
+                setIsFetchingUsers(false);
+                setErrorUsers(error.message)
             }
         };
 
-            getUsers();
-            getPlans();
+        getUsers();
+        getPlans();
     }, []);
 
-    return users && plans ? (
-        <Container>
+    return !isFetchingPlans && !isFetchingUsers ? (<Container>
             <div className={classes.root}>
                 <Grid container spacing={4} align="center">
                     <Typography
@@ -75,16 +84,16 @@ const Settings = () => {
                         className={classes.root2}>
                     </Typography>
                     <Grid item md={12} xs={12}>
-                        <Pricing value={plans}/>
+                        <Pricing value={plans} error={errorPlans}/>
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <Users value={users}/>
+                        <Users value={users} error={errorUsers}/>
                     </Grid>
                 </Grid>
             </div>
-        </Container>
-    ) : (
-        <LinearProgress color="primary"/>
-    );
+        </Container>):
+        (
+            <LinearProgress color="primary"/>
+        );
 };
 export default Settings;
