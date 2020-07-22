@@ -12,6 +12,7 @@ import StarIcon from "@material-ui/icons/StarBorder";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import Error from "../../../Error/Error";
+import {useAppState} from "../../../../state/stateContext";
 
 const useStyles = makeStyles((theme) => ({
     cardHeader: {
@@ -29,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Pricing = (props) => {
-    const [currentPlan] = useState("Professional");
     const [plans] = useState(props.value);
     const classes = useStyles();
+    const {organizationInfo} = useAppState();
+
+    console.log('Pricing')
 
     if (props.error) {
        return <Error error={props.error} message={"Something went wrong with plans."}/>
@@ -49,7 +52,7 @@ const Pricing = (props) => {
                                 title={tier.name}
                                 titleTypographyProps={{align: "center"}}
                                 subheaderTypographyProps={{align: "center"}}
-                                action={tier.name === currentPlan ? <StarIcon/> : null}
+                                action={tier.name === organizationInfo.plan.name ? <StarIcon/> : null}
                                 className={classes.cardHeader}
                             />
                             <CardContent>
@@ -88,7 +91,7 @@ const Pricing = (props) => {
                             <CardActions>
                                 <Button
                                     fullWidth
-                                    disabled={tier.name === currentPlan}
+                                    disabled={tier.name === organizationInfo.plan.name}
                                     variant="contained"
                                     color="primary"
                                 >

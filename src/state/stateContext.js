@@ -10,8 +10,11 @@ export const AppStateProvider = ({children}) => {
     const [organizationInfo, setOrganizationInfo] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
 
+    console.log('appState')
+
     useEffect(() => {
         const initState = async () => {
+            console.log('appState useEffect []')
             try {
                 const currentSession = await Auth.currentSession();
                 const credentials = await Auth.currentUserCredentials();
@@ -27,7 +30,6 @@ export const AppStateProvider = ({children}) => {
                 localStorage.setItem("identityId", credentials.identityId);
                 localStorage.setItem("sessionToken", credentials.sessionToken);
 
-                setIsAuthenticating(false);
             }catch (e) {
                 setIsAuthenticating(false);
             }
@@ -54,14 +56,16 @@ export const AppStateProvider = ({children}) => {
                 setOrganizationInfo(res.data.results.data.organizationInfo);
                 setUserInfo(res.data.results.data.userInfo);
 
+                setIsAuthenticating(false);
+
             } catch (error) {
                 console.log(error);
+                setIsAuthenticating(false);
             }
-
-            setIsAuthenticating(false);
         };
 
         if(isAuthenticated){
+            console.log('appState useEffect [isAuthenticated]')
             getCurrentInfo();
         }
 
