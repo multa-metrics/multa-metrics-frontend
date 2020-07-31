@@ -3,7 +3,6 @@ import MaterialTable from "material-table";
 
 import {forwardRef} from "react";
 import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
@@ -13,13 +12,14 @@ import Edit from "@material-ui/icons/Edit";
 import FilterList from "@material-ui/icons/FilterList";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
-import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
-import ViewColumn from "@material-ui/icons/ViewColumn";
 import Error from "../../../Error/Error";
+import UserInvite from "./UserInvite/UserInvite";
+import {ArrowDownward, Remove, ViewColumn} from "@material-ui/icons";
 
 const Users = (props) => {
+    const [open, setOpen] = useState(false);
     const tableIcons = {
         Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
         Check: forwardRef((props, ref) => <Check {...props} ref={ref}/>),
@@ -61,8 +61,12 @@ const Users = (props) => {
         return <Error error={props.error} message={"Something went wrong with users."}/>
     }
 
+    console.log('Users')
+
     return (
+
         state &&
+        <div>
         <MaterialTable
             title=""
             icons={tableIcons}
@@ -72,18 +76,15 @@ const Users = (props) => {
             }}
             columns={columns}
             data={state.users}
+            actions={[
+                {
+                    icon: tableIcons.Add,
+                    tooltip: 'Invite User',
+                    isFreeAction: true,
+                    onClick: () => setOpen(true)
+                }
+            ]}
             editable={{
-                onRowAdd: (newUsers) =>
-                    new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve();
-                            setState((prevState) => {
-                                const users = [...prevState.users];
-                                users.push(newUsers);
-                                return {...prevState, users};
-                            });
-                        }, 600);
-                    }),
                 onRowUpdate: (newUsers, oldUsers) =>
                     new Promise((resolve) => {
                         setTimeout(() => {
@@ -110,6 +111,8 @@ const Users = (props) => {
                     }),
             }}
         />
+            <UserInvite open={open} onClose={() => setOpen(false)}/>
+        </div>
     );
 };
 

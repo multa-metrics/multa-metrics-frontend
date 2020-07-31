@@ -29,9 +29,13 @@ const Settings = () => {
     const [errorPlans, setErrorPlans] = useState(null);
     const [errorUsers, setErrorUsers] = useState(null);
 
+    const endPoint = process.env.REACT_APP_API_BASE;
+    const token = `Token ${localStorage.accessToken}`;
+
+    console.log('Setting')
+
     useEffect(() => {
-        const endPoint = process.env.REACT_APP_API_BASE;
-        const token = `Token ${localStorage.accessToken}`;
+        console.log('Setting useEffect plans []')
 
         const getPlans = async () => {
             setIsFetchingPlans(true);
@@ -51,6 +55,12 @@ const Settings = () => {
                 setErrorPlans(error.message);
             }
         };
+
+        getPlans();
+    }, []);
+
+    useEffect(() => {
+        console.log('Setting useEffect users []')
 
         const getUsers = async () => {
             setIsFetchingUsers(true);
@@ -72,7 +82,6 @@ const Settings = () => {
         };
 
         getUsers();
-        getPlans();
     }, []);
 
     return !isFetchingPlans && !isFetchingUsers ? (<Container>
