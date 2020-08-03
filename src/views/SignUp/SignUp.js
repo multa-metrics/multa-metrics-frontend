@@ -17,6 +17,10 @@ import Alert from "@material-ui/lab/Alert/Alert";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import PhoneInput from "react-phone-input-2";
+import "material-ui-phone-number";
+import "../../css/materialComponentPhoneInSignUP.css";
+
 
 const schema = {
     firstName: {
@@ -69,14 +73,7 @@ const schema = {
     },
     phoneNumber: {
         presence: {allowEmpty: false, message: 'is required'},
-        length: {
-            maximum: 32
-        }
-        // format: {
-        //     pattern: /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/,
-        //     message: 'in not valid'
-        // }
-    }
+    },
 };
 
 const useStyles = makeStyles(theme => ({
@@ -179,19 +176,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
-    const url = new URLSearchParams(props.location.search);
     const {history} = props;
     const classes = useStyles();
     const [code, setCode] = useState('');
-    const [signedUp, setSignedUp] = useState(url.get('signup') || false);
+    const [signedUp, setSignedUp] = useState(false);
     const [formState, setFormState] = useState({
         isValid: false,
-        values: {
-            'email': url.get('username') || ''
-        },
+        values: {},
         touched: {},
         errors: {}
     });
+
     const [errorMessage, setErrorMessage] = useState(null);
     const [message, setMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -222,6 +217,22 @@ const SignUp = props => {
             touched: {
                 ...formState.touched,
                 [event.target.name]: true
+            }
+        }));
+    };
+
+    const handleChangePhoneNumber = (value, data, event) => {
+        event.persist();
+
+        setFormState(formState => ({
+            ...formState,
+            values: {
+                ...formState.values,
+                ["phoneNumber"]: `+${value}`
+            },
+            touched: {
+                ...formState.touched,
+                ["phoneNumber"]: true
             }
         }));
     };
@@ -276,7 +287,7 @@ const SignUp = props => {
             await Auth.resendSignUp(email);
             setMessage("Code has been sent");
             setErrorMessage(null);
-        }catch (e) {
+        } catch (e) {
             setMessage(null);
             setErrorMessage(e.message);
         }
@@ -346,21 +357,14 @@ const SignUp = props => {
                                     value={formState.values.lastName || ''}
                                     variant="outlined"
                                 />
-                                <TextField
-                                    className={classes.textField}
-                                    error={hasError('phoneNumber')}
-                                    fullWidth
-                                    helperText={
-                                        hasError('phoneNumber') ? formState.errors.phoneNumber[0] : null
-                                    }
-                                    label="Phone Number"
+                                <PhoneInput
+                                    country={'us'}
                                     name="phoneNumber"
-                                    onChange={handleChange}
-                                    type="text"
-                                    value={formState.values.phoneNumber || ''}
+                                    required
+                                    value={formState.values.phoneNumber}
+                                    onChange={handleChangePhoneNumber}
                                     variant="outlined"
-                                >
-                                </TextField>
+                                />
                                 <TextField
                                     className={classes.textField}
                                     error={hasError('email')}
