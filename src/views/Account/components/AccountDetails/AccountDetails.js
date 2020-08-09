@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import PhoneInput from "react-phone-input-2";
 import "material-ui-phone-number";
-import "../../../../css/material.css";
+import material from "../../../../css/material.css";
 
 import {
   Card,
@@ -17,10 +17,15 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root: {overflow: "inherit"},
+  root: { overflow: "inherit" },
   button: {
     marginRight: theme.spacing(4),
     marginLeft: theme.spacing(2),
+  },
+  textField: {
+    "& .MuiInputBase-input": {
+      height: "30px",
+    },
   },
 }));
 
@@ -61,7 +66,7 @@ const AccountDetails = (props) => {
     <Card {...rest} className={clsx(classes.root, className)}>
       <form>
         <CardContent>
-          <Grid container spacing={3}>
+          <Grid className={classes.textField} container spacing={3}>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -102,6 +107,7 @@ const AccountDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <PhoneInput
+                className={classes.phoneNumber}
                 defaultCountry="us"
                 name="phone"
                 required
@@ -121,11 +127,6 @@ const AccountDetails = (props) => {
             variant="contained"
           >
             Save details
-          </Button>
-
-          <Button color="primary" variant="contained" onClick={handlePassword}>
-            {" "}
-            Change Password
           </Button>
         </CardActions>
       </form>
